@@ -34,6 +34,7 @@ public class Board extends Timestamped {
     private long likeCount;
 
     // comment 와 양방향 관계, comment 가 주인
+//    @JsonBackReference // 순환참조 방지
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 

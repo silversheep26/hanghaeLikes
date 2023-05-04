@@ -26,7 +26,7 @@ public class BoardController {
 
     // 게시물 전체 보기
     @GetMapping("/list")  // get 은 body 가 없다
-    public List<BoardAndComment> getBoardList() { // 데이터 베이스에 저장 된 전체 게시물 전부다 가져오는 API
+    public List<BoardResponseDto> getBoardList() { // 데이터 베이스에 저장 된 전체 게시물 전부다 가져오는 API
         return boardService.getBoardList();
     }
 

@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,22 +46,24 @@ public class BoardService {
     // 게시물 전체 보기 : stream
     // 댓글 같이 보기
     // 토큰 필요 없음
-    public List<BoardAndComment> getBoardList() {  // 데이터 베이스에 저장 된 전체 게시물 전부다 가져오는 API
+    public List<BoardResponseDto> getBoardList() {  // 데이터 베이스에 저장 된 전체 게시물 전부다 가져오는 API
         // 테이블에 저장 되어 있는 모든 게시물 목록 조회
         List<Board> boardList = boardRepository.findAllByOrderByCreatedAtDesc();
-        List<Comment> commentList = commentRepository.findAllByOrderByCreatedAtDesc();
-
-        List<BoardAndComment> lists = new ArrayList();
-
-        for(Board board : boardList){
-            lists.add(new BoardResponseDto(board));
-            for(Comment comment : commentList){
-                if(comment.getBoard().getId() == board.getId()){
-                    lists.add(new CommentResponseDto(comment));
-                }
-            }
-        }
-        return lists;
+        return boardList.stream().map(BoardResponseDto::new).collect(Collectors.toList());
+//        List<Board> boardList = boardRepository.findAllByOrderByCreatedAtDesc();
+//        List<Comment> commentList = commentRepository.findAllByOrderByCreatedAtDesc();
+//
+//        List<BoardAndComment> lists = new ArrayList();
+//
+//        for(Board board : boardList){
+//            lists.add(new BoardResponseDto(board));
+//            for(Comment comment : commentList){
+//                if(comment.getBoard().getId() == board.getId()){
+//                    lists.add(new CommentResponseDto(comment));
+//                }
+//            }
+//        }
+//        return lists;
     }
 
     // 게시물 하나만 보기

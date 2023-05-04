@@ -23,6 +23,7 @@ public class Comment extends Timestamped {
 
     @JoinColumn(name = "board_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Board board;  // fk
 
     @JoinColumn(name = "user_id")
